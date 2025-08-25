@@ -1,9 +1,23 @@
 from __future__ import annotations
 
 
+class AliveList(list):
+    """
+    A custom list class that provides a specific string representation
+    """
+
+    def __repr__(self) -> str:
+        """
+        Returns the custom string representation of the list.
+        """
+        formatted_animals = ", ".join(repr(animal) for animal in self)
+        return f"[{formatted_animals}]"
+
+
 class Animal:
     """Represents an animal with health, name, and hidden status."""
-    alive: list[Animal] = []
+
+    alive: AliveList = AliveList()
 
     def __init__(
         self,
@@ -11,7 +25,9 @@ class Animal:
         health: int = 100,
         hidden: bool = False
     ) -> None:
-        """Initializes an Animal instance."""
+        """
+        Initializes an Animal instance.
+        """
         self.name = name
         self.health = health
         self.hidden = hidden
@@ -26,6 +42,7 @@ class Animal:
 
 class Herbivore(Animal):
     """Represents a herbivore that can hide."""
+
     def hide(self) -> None:
         """Toggles the hidden status of the herbivore."""
         self.hidden = not self.hidden
@@ -33,11 +50,14 @@ class Herbivore(Animal):
 
 class Carnivore(Animal):
     """Represents a carnivore that can bite."""
+
     def bite(
         self,
         animal: Animal
     ) -> None:
-        """A carnivore bites another animal."""
+        """
+        A carnivore bites another animal.
+        """
         if animal.hidden or isinstance(animal, Carnivore):
             return
 
